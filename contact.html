@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/img/favicon-180.png">
+<title>お問い合わせ｜株式会社tripman</title>
+<meta name="description" content="案件のご相談、パートナー連携、その他のお問い合わせはこちらから。2〜3営業日を目安にご返信します。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="お問い合わせ｜株式会社tripman">
+<meta property="og:description" content="案件のご相談、パートナー連携、その他のお問い合わせはこちらから。">
+<meta property="og:url" content="https://www.tripman.co.jp/contact.html">
+<meta property="og:image" content="https://www.tripman.co.jp/assets/img/ogp.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<!-- Google Analytics 4 — 測定ID取得後、この行の下のコメントを外し G-XXXXXXXXXX を実際のIDに差し替えてください
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+-->
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="株式会社tripman トップへ">
+      <span class="brand__lockup">
+        <img class="brand__mark" src="assets/img/mark.jpg" alt="" aria-hidden="true">
+        <img class="brand__word" src="assets/img/wordmark.jpg" alt="tripman">
+      </span>
+      <span class="brand__tag" data-i18n="common.commTagline">コミュニケーション特化型 SES / PMO / BPR</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="メニューを開閉" aria-expanded="false" aria-controls="primaryNav"><span></span></button>
+    <nav class="nav" id="primaryNav" aria-label="メインナビゲーション">
+      <span class="nav__tagline" data-i18n="common.commTagline">コミュニケーション特化型 SES / PMO / BPR</span>
+      <ul class="nav__links">
+        <li><a href="about.html" data-i18n="nav.about">私たちについて</a></li>
+        <li><a href="services.html" data-i18n="nav.services">事業内容</a></li>
+        <li><a href="partner.html" data-i18n="nav.partnerShort">パートナー募集</a></li>
+        <li><a href="company.html" data-i18n="nav.company">会社概要</a></li>
+      </ul>
+      <div class="lang" role="group" aria-label="言語切り替え / Language">
+        <button type="button" data-lang="ja" aria-pressed="true">JP</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn--primary nav__cta" href="contact.html" aria-current="page" data-i18n="nav.contact">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+<div class="nav-scrim" id="navScrim" hidden></div>
+
+<main>
+  <section class="subhead">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h1>お問い合わせ</h1>
+      <p class="subhead__lead">案件のご相談、パートナー連携、その他のお問い合わせはこちらから。必要事項をご記入のうえ、送信してください。2〜3営業日を目安にご返信します。</p>
+      <p class="subhead__comm">私たちは、業務にとどまらないコミュニケーション活用で、プロジェクトと組織を動かします。</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-block:56px 96px">
+    <div class="wrap">
+      <div id="formError" class="form__error" hidden></div>
+
+      <form class="form" id="contactForm" action="contact.php" method="post" novalidate>
+        <div class="form__row">
+          <label for="company">会社名</label>
+          <input type="text" id="company" name="company" autocomplete="organization" maxlength="120">
+        </div>
+        <div class="form__row">
+          <label for="name">お名前<span class="req">必須</span></label>
+          <input type="text" id="name" name="name" autocomplete="name" maxlength="80" required>
+        </div>
+        <div class="form__row">
+          <label for="email">メールアドレス<span class="req">必須</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" maxlength="160" required>
+        </div>
+        <div class="form__row">
+          <label for="tel">電話番号</label>
+          <input type="tel" id="tel" name="tel" autocomplete="tel" maxlength="40">
+        </div>
+        <div class="form__row">
+          <label for="type">お問い合わせ種別<span class="req">必須</span></label>
+          <select id="type" name="type" required>
+            <option value="">選択してください</option>
+            <option value="案件紹介">案件紹介</option>
+            <option value="PMO・BPRのパートナー相談">PMO・BPRのパートナー相談</option>
+            <option value="SES">SES</option>
+            <option value="採用">採用</option>
+            <option value="その他">その他</option>
+          </select>
+        </div>
+        <div class="form__row">
+          <label for="message">お問い合わせ内容<span class="req">必須</span></label>
+          <textarea id="message" name="message" maxlength="4000" required></textarea>
+        </div>
+        <div class="form__row form__consent">
+          <input type="checkbox" id="consent" name="consent" value="1" required>
+          <label for="consent" style="font-weight:400;margin:0">
+            <a href="privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>に同意します<span class="req">必須</span>
+          </label>
+        </div>
+
+        <!-- honeypot: 人間には見えない。入力があればサーバー側で破棄 -->
+        <div class="form__hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="hidden" name="ts" id="ts" value="">
+
+        <button type="submit" class="btn btn--primary" id="submitBtn">送信する
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+
+      <div id="formOk" class="form__ok" hidden>
+        <h2>送信ありがとうございます。</h2>
+        <p>担当者より2〜3営業日以内にご連絡します。控えのメールをお送りしましたので、あわせてご確認ください。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="f-top">
+      <div class="f-brand">
+        <img src="assets/img/wordmark.jpg" alt="tripman" class="f-word">
+        <p class="f-purpose" data-i18n="footer.purpose">プラスアルファで今日より明日を色濃い一日にし最高の人生にする</p>
+        <p data-i18n="common.commTaglineFooter">コミュニケーション特化型のSES・PMO・BPR</p>
+      </div>
+      <div>
+        <h4>Sitemap</h4>
+        <ul>
+          <li><a href="about.html" data-i18n="nav.about">私たちについて</a></li>
+          <li><a href="services.html" data-i18n="nav.services">事業内容</a></li>
+          <li><a href="partner.html" data-i18n="nav.partner">ビジネスパートナー募集</a></li>
+          <li><a href="company.html" data-i18n="nav.company">会社概要</a></li>
+          <li><a href="privacy.html" data-i18n="nav.privacy">プライバシーポリシー</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li>株式会社tripman</li>
+          <li data-i18n="footer.location">埼玉県 ＋ remote</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:info@tripman.co.jp">info@tripman.co.jp</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">お問い合わせフォーム</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-divider" aria-hidden="true"></div>
+    <div class="f-bottom">
+      <span>© 2026 tripman Inc.</span>
+      <a href="privacy.html" data-i18n="nav.privacy">プライバシーポリシー</a>
+    </div>
+  </div>
+</footer>
+
+<div class="i18n-banner" id="i18nBanner" role="status" hidden>
+  <span id="i18nBannerText"></span>
+  <button type="button" id="i18nBannerClose">OK</button>
+</div>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
