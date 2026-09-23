@@ -15,14 +15,20 @@
   var body = document.body;
   var hamburger = document.getElementById('hamburger');
   var scrim = document.getElementById('navScrim');
+  var primaryNav = document.getElementById('primaryNav');
 
   function closeMenu() {
     body.classList.remove('is-menu-open');
+    if (primaryNav) primaryNav.classList.remove('is-open');
     if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
     if (scrim) scrim.hidden = true;
   }
   function toggleMenu() {
     var open = body.classList.toggle('is-menu-open');
+    // the open/closed transform is driven directly off the nav element's own
+    // class (not a body-descendant selector), so there's no ambiguity about
+    // which rule wins
+    if (primaryNav) primaryNav.classList.toggle('is-open', open);
     if (hamburger) hamburger.setAttribute('aria-expanded', String(open));
     if (scrim) scrim.hidden = !open;
   }
@@ -47,9 +53,9 @@
   /* ---------- hero intro animation ----------
      The hero is fully readable at rest (CSS resting state). Adding
      `.anim-ready` plays the one-shot CSS intro; `.is-revealed` cancels
-     it and locks the finished state (used for skip / reduced motion). */
+     it and locks the finished state (no visible skip button per v1.1 —
+     scrolling away or pressing Escape still finishes it instantly). */
   var hero = document.getElementById('hero');
-  var heroSkip = document.getElementById('heroSkip');
 
   function finishHero() {
     if (hero) hero.classList.add('is-revealed');
@@ -61,13 +67,12 @@
     } else {
       hero.classList.add('anim-ready');
       // failsafe: guarantee the finished state even if something stalls
-      var failsafe = setTimeout(finishHero, 3000);
+      var failsafe = setTimeout(finishHero, 4000);
 
       var skip = function () {
         clearTimeout(failsafe);
         finishHero();
       };
-      if (heroSkip) heroSkip.addEventListener('click', skip);
       window.addEventListener('scroll', function once() {
         skip();
         window.removeEventListener('scroll', once);
@@ -184,11 +189,10 @@
     // preselect お問い合わせ種別 from ?type=
     var qs = new URLSearchParams(location.search);
     var typeMap = {
-      partner: 'PMO・BPRのパートナー相談',
-      pmo: 'PMO・BPRのパートナー相談',
-      bpr: 'PMO・BPRのパートナー相談',
+      partner: 'プロジェクトマネジメント・業務変革コンサルティングのご相談',
+      pm: 'プロジェクトマネジメント・業務変革コンサルティングのご相談',
+      consulting: 'プロジェクトマネジメント・業務変革コンサルティングのご相談',
       case: '案件紹介',
-      ses: 'SES',
       recruit: '採用'
     };
     var want = typeMap[(qs.get('type') || '').toLowerCase()];
@@ -235,8 +239,15 @@
       if (!fields.message.value.trim()) bad(fields.message);
       if (!fields.consent.checked) bad(fields.consent);
 
+      // 機械的な入力・ソースコード風の入力の抑止（サーバー側でも同じ判定を行う）
+      var looksLikeMarkup = /<\s*(script|iframe|style|object|embed|svg|img|a)\b|<\/?[a-z][\s\S]*>/i;
+      var companyEl = form.elements['company'];
+      [fields.name, companyEl, fields.message].forEach(function (el) {
+        if (el && el.value && looksLikeMarkup.test(el.value)) bad(el);
+      });
+
       if (firstBad) {
-        showErr('未入力または形式に誤りのある項目があります。赤枠の項目をご確認ください。');
+        showErr('未入力の項目があるか、HTMLタグ・スクリプトのような入力が含まれています。赤枠の項目をご確認ください。');
         firstBad.focus();
         return;
       }
