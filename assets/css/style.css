@@ -273,8 +273,8 @@ button { font-family: inherit; }
   .nav.is-open { transform: translateX(0); }
   .nav__links { flex-direction: column; gap: 4px; }
   .nav__links a {
-    padding: 14px 4px 8px 14px;
-    margin-bottom: 6px;
+    padding: 14px 4px 2px 14px;
+    margin-bottom: 12px;
     border-bottom: 1px solid var(--line);
     border-left: 3px solid transparent;
     font-size: 1rem;
@@ -645,7 +645,7 @@ button { font-family: inherit; }
 .cases {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(300px, 360px);
+  grid-auto-columns: 440px;
   gap: 24px;
   overflow-x: auto;
   scroll-snap-type: x proximity;
