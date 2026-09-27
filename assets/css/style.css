@@ -226,6 +226,11 @@ button { font-family: inherit; }
 }
 .lang button[aria-pressed="true"] { background: var(--brand); color: #fff; }
 
+/* header-level copy (same markup, same JS listeners via .lang selector):
+   shown instead of the in-drawer one once the drawer becomes off-canvas,
+   so JP/EN stays reachable without opening the menu */
+.lang--header { display: none; }
+
 .nav__cta { display: inline-flex; }
 
 .hamburger {
@@ -255,7 +260,9 @@ button { font-family: inherit; }
 
 @media (max-width: 1040px) {
   .brand__tag { display: none; }
-  .hamburger { display: inline-flex; }
+  .hamburger { display: inline-flex; margin-left: 0; }
+  .nav > .lang { display: none; }
+  .lang--header { display: inline-flex; margin-left: auto; }
   .nav {
     position: fixed;
     inset: 0 0 0 auto;
@@ -673,6 +680,38 @@ button { font-family: inherit; }
   margin-bottom: 14px;
 }
 .case h3 { font-size: 1.05rem; color: var(--ink); margin: 0 0 10px; line-height: 1.6; white-space: nowrap; }
+
+/* hints that the CASE row scrolls horizontally */
+.scroll-hint {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin: 16px 0 0;
+  font-family: var(--font-latin);
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.scroll-hint svg { width: 15px; height: 15px; color: var(--brand); }
+.scroll-hint svg:nth-of-type(1) { animation: scrollHintNudge 1.6s ease-in-out infinite; }
+.scroll-hint svg:nth-of-type(2) { animation: scrollHintNudge 1.6s ease-in-out infinite .25s; }
+@keyframes scrollHintNudge {
+  0%, 100% { transform: translateX(0); opacity: .45; }
+  50% { transform: translateX(4px); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint svg { animation: none; }
+}
+@media (max-width: 640px) {
+  .cases { grid-auto-columns: min(90vw, 340px); }
+  .case { padding: 24px 18px; }
+  .case h3 { font-size: .8rem; }
+  .case__tag { font-size: .66rem; padding: 3px 10px; }
+  .case p { font-size: .86rem; }
+}
 .case p { margin: 0; font-size: .9rem; color: var(--muted); }
 
 /* comm highlight strip inside intro */
