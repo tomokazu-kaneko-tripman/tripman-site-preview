@@ -273,7 +273,8 @@ button { font-family: inherit; }
   .nav.is-open { transform: translateX(0); }
   .nav__links { flex-direction: column; gap: 4px; }
   .nav__links a {
-    padding: 14px 4px 14px 14px;
+    padding: 14px 4px 8px 14px;
+    margin-bottom: 6px;
     border-bottom: 1px solid var(--line);
     border-left: 3px solid transparent;
     font-size: 1rem;
@@ -453,10 +454,12 @@ button { font-family: inherit; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 14px; }
 
 /* enhancement: fade-up runs once when JS adds .anim-ready; resting state is fully visible */
-.hero.anim-ready .hero__eyebrow { animation: heroUp .6s var(--ease) 1.25s both; }
-.hero.anim-ready .hero__title   { animation: heroUp .7s var(--ease) 1.38s both; }
-.hero.anim-ready .hero__sub     { animation: heroUp .7s var(--ease) 1.52s both; }
-.hero.anim-ready .hero__actions { animation: heroUp .7s var(--ease) 1.64s both; }
+/* v1.1追加修正: 日付変更線アニメーション後に続けて表示される文章が
+   早送りに見えるとの指摘を受け、表示速度を0.8倍（時間を1.25倍）に調整 */
+.hero.anim-ready .hero__eyebrow { animation: heroUp .75s var(--ease) 1.56s both; }
+.hero.anim-ready .hero__title   { animation: heroUp .88s var(--ease) 1.73s both; }
+.hero.anim-ready .hero__sub     { animation: heroUp .88s var(--ease) 1.9s both; }
+.hero.anim-ready .hero__actions { animation: heroUp .88s var(--ease) 2.05s both; }
 .hero.is-revealed .hero__eyebrow,
 .hero.is-revealed .hero__title,
 .hero.is-revealed .hero__sub,
@@ -533,6 +536,11 @@ button { font-family: inherit; }
 
 .stack > * + * { margin-top: 1.1em; }
 
+/* top-page Partner block: the right column's plain paragraph sat visually
+   higher than the left eyebrow+heading's text baseline — nudge it down to
+   align both columns' top edges */
+#partner .split > .stack { padding-top: 6px; }
+
 /* pv/value panel */
 .pv {
   display: grid;
@@ -582,6 +590,16 @@ button { font-family: inherit; }
 }
 @media (max-width: 860px) { .cards { grid-template-columns: 1fr; } }
 
+/* exactly-2 service cards (top page): center as a balanced pair instead of
+   sitting in a 3-column track with empty space on the right */
+.cards--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 760px; margin-inline: auto; }
+@media (max-width: 860px) { .cards--pair { grid-template-columns: 1fr; max-width: none; } }
+@media (min-width: 861px) { .cards--pair .card__ttl > span { white-space: nowrap; } }
+
+/* exactly-4 cards (partner "What we bring"): 2x2 instead of 3+1 */
+.cards--2x2 { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 860px) { .cards--2x2 { grid-template-columns: 1fr; } }
+
 .card {
   background: #fff;
   border: 1px solid var(--line);
@@ -620,10 +638,24 @@ button { font-family: inherit; }
 }
 .card:hover .card__link { gap: .7em; }
 
-/* case list */
-.cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-@media (max-width: 860px) { .cases { grid-template-columns: 1fr; } }
+/* case list — the JP card titles don't reliably fit a 1fr-of-3 column, so
+   cards get a guaranteed minimum width and titles never wrap; once 3 of them
+   no longer fit the row at that width, the row scrolls horizontally instead
+   of wrapping the title text */
+.cases {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(300px, 360px);
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+.cases::-webkit-scrollbar { height: 6px; }
+.cases::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
 .case {
+  scroll-snap-align: start;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 28px 24px;
@@ -640,7 +672,7 @@ button { font-family: inherit; }
   display: inline-block;
   margin-bottom: 14px;
 }
-.case h3 { font-size: 1.05rem; color: var(--ink); margin: 0 0 10px; line-height: 1.6; }
+.case h3 { font-size: 1.05rem; color: var(--ink); margin: 0 0 10px; line-height: 1.6; white-space: nowrap; }
 .case p { margin: 0; font-size: .9rem; color: var(--muted); }
 
 /* comm highlight strip inside intro */
@@ -670,15 +702,6 @@ button { font-family: inherit; }
   position: relative;
   overflow: hidden;
 }
-/* v1.1: the dashed accent stays only where explicitly requested (.cta-band--dash);
-   on the top page it overlapped the copy on mobile, so it was removed there */
-.cta-band.cta-band--dash::before {
-  content: "";
-  position: absolute;
-  top: 0; bottom: 0; left: 18%;
-  width: 2px;
-  background: repeating-linear-gradient(180deg, rgba(255,255,255,.5) 0 8px, transparent 8px 20px);
-}
 .cta-band .wrap { position: relative; text-align: center; padding-block: 72px; }
 .cta-band h2 {
   font-size: clamp(1.4rem, 1rem + 2vw, 2.1rem);
@@ -706,7 +729,7 @@ button { font-family: inherit; }
    vertical on desktop/tablet, horizontal once it stacks on mobile */
 .site-footer .f-brand {
   padding-right: 32px;
-  background-image: repeating-linear-gradient(180deg, var(--line) 0 6px, transparent 6px 12px);
+  background-image: repeating-linear-gradient(180deg, rgba(0, 133, 222, .5) 0 6px, transparent 6px 12px);
   background-repeat: no-repeat;
   background-position: right top;
   background-size: 1px 100%;
@@ -998,4 +1021,10 @@ button { font-family: inherit; }
 .nowrap-lead { white-space: nowrap; }
 @media (max-width: 600px) {
   .nowrap-lead { white-space: normal; }
+}
+
+/* line break shown on desktop/tablet only; treated as a space on mobile */
+.br-desktop { display: none; }
+@media (min-width: 601px) {
+  .br-desktop { display: inline; }
 }
