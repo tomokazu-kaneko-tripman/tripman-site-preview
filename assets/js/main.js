@@ -254,16 +254,19 @@
 
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '送信中…'; }
 
-      fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'X-Requested-With': 'fetch' } })
-        .then(function (r) { return r.json().catch(function () { return { ok: r.ok }; }); })
-        .then(function (data) {
-          if (data && data.ok) {
-            form.hidden = true;
-            if (okBox) { okBox.hidden = false; okBox.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' }); }
-          } else {
-            showErr((data && data.message) || '送信に失敗しました。時間をおいて再度お試しいただくか、info@tripman.co.jp までご連絡ください。');
-            if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '送信する'; }
-          }
+      // Apps Script's own redirect (script.google.com -> script.googleusercontent.com)
+      // doesn't carry CORS headers, so a normal cross-origin fetch can't read the
+      // response even though the request itself succeeds server-side. no-cors mode
+      // sends the request and lets Apps Script actually process/email it, at the
+      // cost of only getting an opaque response back — client-side validation above
+      // is what catches real input problems before we ever get here, so we show
+      // success once the request completes without a network-level failure.
+      // application/x-www-form-urlencoded (not multipart) also works around a
+      // separate, longstanding Apps Script bug decoding non-ASCII multipart bodies.
+      fetch(form.action, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(new FormData(form)) })
+        .then(function () {
+          form.hidden = true;
+          if (okBox) { okBox.hidden = false; okBox.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' }); }
         })
         .catch(function () {
           showErr('通信エラーが発生しました。時間をおいて再度お試しいただくか、info@tripman.co.jp までご連絡ください。');
