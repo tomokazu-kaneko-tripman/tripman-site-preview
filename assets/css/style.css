@@ -281,7 +281,7 @@ button { font-family: inherit; }
   .nav__links { flex-direction: column; gap: 4px; }
   .nav__links a {
     padding: 14px 4px 2px 14px;
-    margin-bottom: 22px;
+    margin-bottom: 34px;
     border-bottom: 1px solid var(--line);
     border-left: 3px solid transparent;
     font-size: 1rem;
