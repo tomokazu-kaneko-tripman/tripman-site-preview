@@ -280,6 +280,13 @@ button { font-family: inherit; }
   .nav.is-open { transform: translateX(0); }
   .nav__links { flex-direction: column; gap: 4px; }
   .nav__links a {
+    /* .nav__links's flex items are the <li>s, not these <a>s — an <a> stays
+       display:inline by default, so its padding paints but reserves no
+       vertical space and margin-bottom is ignored outright. That silently
+       broke every spacing fix attempted here until this line was added:
+       without it the active item's highlight visually overlapped its
+       neighbor regardless of how large the margin was set. */
+    display: block;
     padding: 14px 4px 2px 14px;
     margin-bottom: 48px;
     border-bottom: 1px solid var(--line);
